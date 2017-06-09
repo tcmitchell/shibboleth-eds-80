@@ -5,10 +5,6 @@ ADD http://download.opensuse.org/repositories/security://shibboleth/CentOS_CentO
 
 RUN yum update
 RUN yum -y install httpd shibboleth-embedded-ds
-
-# Do we need sudo?
-# RUN yum -y install sudo
-
 RUN yum clean all
 
 # Run Apache in the foreground when running this container
