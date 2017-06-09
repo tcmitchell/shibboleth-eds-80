@@ -1,0 +1,9 @@
+TOPTARGETS := image clean
+
+SUBDIRS := centos6 centos7
+
+$(TOPTARGETS): $(SUBDIRS)
+$(SUBDIRS):
+	$(MAKE) -C $@ $(MAKECMDGOALS)
+
+.PHONY: $(TOPTARGETS) $(SUBDIRS)
