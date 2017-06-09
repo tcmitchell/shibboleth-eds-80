@@ -1,4 +1,4 @@
-.PHONY: image
+.PHONY: image clean
 
 IMAGE_NAME = eds80:centos6
 

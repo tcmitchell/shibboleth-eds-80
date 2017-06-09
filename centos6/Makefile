@@ -1,11 +1,9 @@
+TOPTARGETS := image clean
+
 SUBDIRS := eds eds80
 
-image: $(SUBDIRS)
-
-clean: $(SUBDIRS)
-	docker rmi centos:centos6
-
+$(TOPTARGETS): $(SUBDIRS)
 $(SUBDIRS):
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
-.PHONY: image clean $(SUBDIRS)
+.PHONY: $(TOPTARGETS) $(SUBDIRS)
