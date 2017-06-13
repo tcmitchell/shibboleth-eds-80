@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import subprocess
+
+import edsimage
+
+
+def rm_image(repo, tag):
+    image_name = '%s:%s' % (repo, tag)
+    dir_name = '%s/%s' % (tag, repo)
+    status = subprocess.call(['docker', 'rmi', image_name])
+    if status is not 0:
+        raise Exception('Status was %d' % (status))
+
+
+for tag in edsimage.TAGS:
+    for repo in edsimage.REPOS:
+        rm_image(repo, tag)
