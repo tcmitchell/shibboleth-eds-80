@@ -3,7 +3,14 @@ Embedded Discover Service configuration issue with Apache 2.4 on Centos 7.
 
 See https://issues.shibboleth.net/jira/projects/EDS/issues/EDS-80
 
-# 1. Install docker
+To recreate the bug and test the fix:
+
+1. [Install Docker](#install-docker)
+2. [Build the EDS images](#build-eds-images)
+3. [Run the tests](#run-tests)
+4. (optional) [Clean up](#clean-up)
+
+# Install Docker
 
 Follow the
 [docker installation instructions](https://docs.docker.com/engine/installation/)
