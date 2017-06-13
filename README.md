@@ -1,64 +1,47 @@
+This repository serves as a test platform for a fix to a Shibboleth
+Embedded Discover Service configuration issue with Apache 2.4 on Centos 7.
 
 See https://issues.shibboleth.net/jira/projects/EDS/issues/EDS-80
 
-# Build
+# 1. Install docker
+
+Follow the
+[docker installation instructions](https://docs.docker.com/engine/installation/)
+for your platform.
+
+# Build EDS images
+
+Four images are built by the `buildimages` script. These images are a
+vanilla EDS installation and EDS with the
+[EDS-80 fix](https://issues.shibboleth.net/jira/secure/attachment/13631/shibboleth-ds.conf)
+applied on both CentOS 6 (Apache 2.2) and CentOS 7 (Apache 2.4).
 
 ```
-docker build . -t testing:centos6
+./buildimages
 ```
 
-## Build from GitHub
+You can see the commands used to configure these images in their
+respective Dockerfiles:
 
-See
-https://docs.docker.com/engine/reference/commandline/build/#parent-command
+* centos6/eds/Dockerfile
+* centos6/eds80/Dockerfile
+* centos7/eds/Dockerfile
+* centos7/eds80/Dockerfile
 
-# Run
 
-This maps local port 8080 to container port 80
+# Run tests
 
-```shell
-docker run -p8080:80 -d testing:centos6
-```
-
-# Test
-
-```shell
-curl http://localhost:8080/
-```
-
-# Halt
-
-```shell
-docker ps
-```
-
-```shell
-docker stop <container ID>
-```
-
-```shell
-wget http://localhost:8080/shibboleth-ds/idpselect_config.js
-```
-
-Run with patch on CentOS 6:
-
-```shell
-docker run -d -p 8080:80 --rm --name eds6-80 eds80:centos6
-```
-
-Verify idpselect_config.js:
-
-```shell
-$ sha1sum idpselect_config.js
-24d749f9993ec58e6e170b482030145cbf0d0923  idpselect_config.js
-```
-
-Alternately:
-
-```shell
-wget -O - http://localhost:8080/shibboleth-ds/idpselect_config.js | sha1sum -
-```
+Use the `test-eds` script to test each image. You'll see a printout in
+green that shows success for three of the images, and a printout in red
+for CentOS 7 with vanilla EDS installed. This script demonstrates that
+the EDS-80 fix works on both CentOS 6 (Apache 2.2) and CentOS 7 (Apache 2.4).
 
 ```
-docker build -t eds80:centos6 .
+./test-eds
 ```
+
+# Clean up
+
+The constructed EDS images can be deleted using the `delimages` script.
+After this script is run there will still be the two base CentOS images:
+centos:centos6 and centos:centos7.
